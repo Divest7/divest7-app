@@ -1,39 +1,31 @@
 {
-  "name": "DIVEST 7 — The Next Step Forward",
+  "name": "DIVEST 7 \u2014 The Next Step Forward",
   "short_name": "DIVEST 7",
   "description": "Daily affirmation, Scripture, reflection and one action step. Small Steps. Big Movement.",
   "id": "/",
-  "start_url": "/today",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui"],
   "orientation": "portrait-primary",
   "background_color": "#04070d",
   "theme_color": "#04070d",
-  "categories": ["lifestyle", "education", "books"],
+  "categories": [
+    "lifestyle",
+    "education",
+    "books"
+  ],
   "icons": [
     {
-      "src": "/.netlify/images?url=/img/icon-source.png&w=192&h=192&fit=cover&fm=png",
-      "sizes": "192x192",
+      "src": "/img/icon-source.png",
+      "sizes": "1024x1024",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/.netlify/images?url=/img/icon-source.png&w=512&h=512&fit=cover&fm=png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/.netlify/images?url=/img/icon-source.png&w=512&h=512&fit=cover&fm=png",
-      "sizes": "512x512",
+      "src": "/img/icon-source.png",
+      "sizes": "1024x1024",
       "type": "image/png",
       "purpose": "maskable"
     }
-  ],
-  "shortcuts": [
-    { "name": "Today", "url": "/today" },
-    { "name": "KJV Bible", "url": "/bible" },
-    { "name": "Journal", "url": "/journal" }
   ]
 }
