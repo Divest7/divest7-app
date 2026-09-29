@@ -1,0 +1,297 @@
+/**
+ * KJV verse text store.
+ *
+ * The King James Version is in the public domain. Chapters are keyed
+ * `"<book-slug>:<chapter>"` and hold an ordered array of verse strings, where
+ * index 0 is verse 1.
+ *
+ * ADDING MORE TEXT
+ * ----------------
+ * Drop additional entries into `CHAPTERS` using the same shape. Nothing else
+ * has to change: `src/data/bible.ts` already describes all 66 books and their
+ * chapter counts, so navigation, the chapter grid and search pick up new text
+ * automatically. Chapters with no entry render as "text not yet loaded" while
+ * still being fully navigable.
+ *
+ * The same shape can be served from a Netlify Function or Blobs bucket later —
+ * see `getChapter` below for the single seam that would need to change.
+ */
+
+export type Chapter = string[]
+
+export const CHAPTERS: Record<string, Chapter> = {
+  'genesis:1': [
+    "In the beginning God created the heaven and the earth.",
+    "And the earth was without form, and void; and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters.",
+    "And God said, Let there be light: and there was light.",
+    "And God saw the light, that it was good: and God divided the light from the darkness.",
+    "And God called the light Day, and the darkness he called Night. And the evening and the morning were the first day.",
+    "And God said, Let there be a firmament in the midst of the waters, and let it divide the waters from the waters.",
+    "And God made the firmament, and divided the waters which were under the firmament from the waters which were above the firmament: and it was so.",
+    "And God called the firmament Heaven. And the evening and the morning were the second day.",
+    "And God said, Let the waters under the heaven be gathered together unto one place, and let the dry land appear: and it was so.",
+    "And God called the dry land Earth; and the gathering together of the waters called he Seas: and God saw that it was good.",
+    "And God said, Let the earth bring forth grass, the herb yielding seed, and the fruit tree yielding fruit after his kind, whose seed is in itself, upon the earth: and it was so.",
+    "And the earth brought forth grass, and herb yielding seed after his kind, and the tree yielding fruit, whose seed was in itself, after his kind: and God saw that it was good.",
+    "And the evening and the morning were the third day.",
+    "And God said, Let there be lights in the firmament of the heaven to divide the day from the night; and let them be for signs, and for seasons, and for days, and years:",
+    "And let them be for lights in the firmament of the heaven to give light upon the earth: and it was so.",
+    "And God made two great lights; the greater light to rule the day, and the lesser light to rule the night: he made the stars also.",
+    "And God set them in the firmament of the heaven to give light upon the earth,",
+    "And to rule over the day and over the night, and to divide the light from the darkness: and God saw that it was good.",
+    "And the evening and the morning were the fourth day.",
+    "And God said, Let the waters bring forth abundantly the moving creature that hath life, and fowl that may fly above the earth in the open firmament of heaven.",
+    "And God created great whales, and every living creature that moveth, which the waters brought forth abundantly, after their kind, and every winged fowl after his kind: and God saw that it was good.",
+    "And God blessed them, saying, Be fruitful, and multiply, and fill the waters in the seas, and let fowl multiply in the earth.",
+    "And the evening and the morning were the fifth day.",
+    "And God said, Let the earth bring forth the living creature after his kind, cattle, and creeping thing, and beast of the earth after his kind: and it was so.",
+    "And God made the beast of the earth after his kind, and cattle after their kind, and every thing that creepeth upon the earth after his kind: and God saw that it was good.",
+    "And God said, Let us make man in our image, after our likeness: and let them have dominion over the fish of the sea, and over the fowl of the air, and over the cattle, and over all the earth, and over every creeping thing that creepeth upon the earth.",
+    "So God created man in his own image, in the image of God created he him; male and female created he them.",
+    "And God blessed them, and God said unto them, Be fruitful, and multiply, and replenish the earth, and subdue it: and have dominion over the fish of the sea, and over the fowl of the air, and over every living thing that moveth upon the earth.",
+    "And God said, Behold, I have given you every herb bearing seed, which is upon the face of all the earth, and every tree, in the which is the fruit of a tree yielding seed; to you it shall be for meat.",
+    "And to every beast of the earth, and to every fowl of the air, and to every thing that creepeth upon the earth, wherein there is life, I have given every green herb for meat: and it was so.",
+    "And God saw every thing that he had made, and, behold, it was very good. And the evening and the morning were the sixth day.",
+  ],
+  'psalms:1': [
+    "Blessed is the man that walketh not in the counsel of the ungodly, nor standeth in the way of sinners, nor sitteth in the seat of the scornful.",
+    "But his delight is in the law of the LORD; and in his law doth he meditate day and night.",
+    "And he shall be like a tree planted by the rivers of water, that bringeth forth his fruit in his season; his leaf also shall not wither; and whatsoever he doeth shall prosper.",
+    "The ungodly are not so: but are like the chaff which the wind driveth away.",
+    "Therefore the ungodly shall not stand in the judgment, nor sinners in the congregation of the righteous.",
+    "For the LORD knoweth the way of the righteous: but the way of the ungodly shall perish.",
+  ],
+  'psalms:23': [
+    "The LORD is my shepherd; I shall not want.",
+    "He maketh me to lie down in green pastures: he leadeth me beside the still waters.",
+    "He restoreth my soul: he leadeth me in the paths of righteousness for his name's sake.",
+    "Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me.",
+    "Thou preparest a table before me in the presence of mine enemies: thou anointest my head with oil; my cup runneth over.",
+    "Surely goodness and mercy shall follow me all the days of my life: and I will dwell in the house of the LORD for ever.",
+  ],
+  'psalms:27': [
+    "The LORD is my light and my salvation; whom shall I fear? the LORD is the strength of my life; of whom shall I be afraid?",
+    "When the wicked, even mine enemies and my foes, came upon me to eat up my flesh, they stumbled and fell.",
+    "Though an host should encamp against me, my heart shall not fear: though war should rise against me, in this will I be confident.",
+    "One thing have I desired of the LORD, that will I seek after; that I may dwell in the house of the LORD all the days of my life, to behold the beauty of the LORD, and to enquire in his temple.",
+    "For in the time of trouble he shall hide me in his pavilion: in the secret of his tabernacle shall he hide me; he shall set me up upon a rock.",
+    "And now shall mine head be lifted up above mine enemies round about me: therefore will I offer in his tabernacle sacrifices of joy; I will sing, yea, I will sing praises unto the LORD.",
+    "Hear, O LORD, when I cry with my voice: have mercy also upon me, and answer me.",
+    "When thou saidst, Seek ye my face; my heart said unto thee, Thy face, LORD, will I seek.",
+    "Hide not thy face far from me; put not thy servant away in anger: thou hast been my help; leave me not, neither forsake me, O God of my salvation.",
+    "When my father and my mother forsake me, then the LORD will take me up.",
+    "Teach me thy way, O LORD, and lead me in a plain path, because of mine enemies.",
+    "Deliver me not over unto the will of mine enemies: for false witnesses are risen up against me, and such as breathe out cruelty.",
+    "I had fainted, unless I had believed to see the goodness of the LORD in the land of the living.",
+    "Wait on the LORD: be of good courage, and he shall strengthen thine heart: wait, I say, on the LORD.",
+  ],
+  'psalms:91': [
+    "He that dwelleth in the secret place of the most High shall abide under the shadow of the Almighty.",
+    "I will say of the LORD, He is my refuge and my fortress: my God; in him will I trust.",
+    "Surely he shall deliver thee from the snare of the fowler, and from the noisome pestilence.",
+    "He shall cover thee with his feathers, and under his wings shalt thou trust: his truth shall be thy shield and buckler.",
+    "Thou shalt not be afraid for the terror by night; nor for the arrow that flieth by day;",
+    "Nor for the pestilence that walketh in darkness; nor for the destruction that wasteth at noonday.",
+    "A thousand shall fall at thy side, and ten thousand at thy right hand; but it shall not come nigh thee.",
+    "Only with thine eyes shalt thou behold and see the reward of the wicked.",
+    "Because thou hast made the LORD, which is my refuge, even the most High, thy habitation;",
+    "There shall no evil befall thee, neither shall any plague come nigh thy dwelling.",
+    "For he shall give his angels charge over thee, to keep thee in all thy ways.",
+    "They shall bear thee up in their hands, lest thou dash thy foot against a stone.",
+    "Thou shalt tread upon the lion and adder: the young lion and the dragon shalt thou trample under feet.",
+    "Because he hath set his love upon me, therefore will I deliver him: I will set him on high, because he hath known my name.",
+    "He shall call upon me, and I will answer him: I will be with him in trouble; I will deliver him, and honour him.",
+    "With long life will I satisfy him, and shew him my salvation.",
+  ],
+  'psalms:121': [
+    "I will lift up mine eyes unto the hills, from whence cometh my help.",
+    "My help cometh from the LORD, which made heaven and earth.",
+    "He will not suffer thy foot to be moved: he that keepeth thee will not slumber.",
+    "Behold, he that keepeth Israel shall neither slumber nor sleep.",
+    "The LORD is thy keeper: the LORD is thy shade upon thy right hand.",
+    "The sun shall not smite thee by day, nor the moon by night.",
+    "The LORD shall preserve thee from all evil: he shall preserve thy soul.",
+    "The LORD shall preserve thy going out and thy coming in from this time forth, and even for evermore.",
+  ],
+  'proverbs:3': [
+    "My son, forget not my law; but let thine heart keep my commandments:",
+    "For length of days, and long life, and peace, shall they add to thee.",
+    "Let not mercy and truth forsake thee: bind them about thy neck; write them upon the table of thine heart:",
+    "So shalt thou find favour and good understanding in the sight of God and man.",
+    "Trust in the LORD with all thine heart; and lean not unto thine own understanding.",
+    "In all thy ways acknowledge him, and he shall direct thy paths.",
+    "Be not wise in thine own eyes: fear the LORD, and depart from evil.",
+    "It shall be health to thy navel, and marrow to thy bones.",
+    "Honour the LORD with thy substance, and with the firstfruits of all thine increase:",
+    "So shall thy barns be filled with plenty, and thy presses shall burst out with new wine.",
+    "My son, despise not the chastening of the LORD; neither be weary of his correction:",
+    "For whom the LORD loveth he correcteth; even as a father the son in whom he delighteth.",
+    "Happy is the man that findeth wisdom, and the man that getteth understanding.",
+    "For the merchandise of it is better than the merchandise of silver, and the gain thereof than fine gold.",
+    "She is more precious than rubies: and all the things thou canst desire are not to be compared unto her.",
+    "Length of days is in her right hand; and in her left hand riches and honour.",
+    "Her ways are ways of pleasantness, and all her paths are peace.",
+    "She is a tree of life to them that lay hold upon her: and happy is every one that retaineth her.",
+    "The LORD by wisdom hath founded the earth; by understanding hath he established the heavens.",
+    "By his knowledge the depths are broken up, and the clouds drop down the dew.",
+    "My son, let not them depart from thine eyes: keep sound wisdom and discretion:",
+    "So shall they be life unto thy soul, and grace to thy neck.",
+    "Then shalt thou walk in thy way safely, and thy foot shall not stumble.",
+    "When thou liest down, thou shalt not be afraid: yea, thou shalt lie down, and thy sleep shall be sweet.",
+    "Be not afraid of sudden fear, neither of the desolation of the wicked, when it cometh.",
+    "For the LORD shall be thy confidence, and shall keep thy foot from being taken.",
+    "Withhold not good from them to whom it is due, when it is in thine hand to do it.",
+    "Say not unto thy neighbour, Go, and come again, and to morrow I will give; when thou hast it by thee.",
+    "Devise not evil against thy neighbour, seeing he dwelleth securely by thee.",
+    "Strive not with a man without cause, if he have done thee no harm.",
+    "Envy thou not the oppressor, and choose none of his ways.",
+    "For the froward is abomination to the LORD: but his secret is with the righteous.",
+    "The curse of the LORD is in the house of the wicked: but he blesseth the habitation of the just.",
+    "Surely he scorneth the scorners: but he giveth grace unto the lowly.",
+    "The wise shall inherit glory: but shame shall be the promotion of fools.",
+  ],
+  'isaiah:53': [
+    "Who hath believed our report? and to whom is the arm of the LORD revealed?",
+    "For he shall grow up before him as a tender plant, and as a root out of a dry ground: he hath no form nor comeliness; and when we shall see him, there is no beauty that we should desire him.",
+    "He is despised and rejected of men; a man of sorrows, and acquainted with grief: and we hid as it were our faces from him; he was despised, and we esteemed him not.",
+    "Surely he hath borne our griefs, and carried our sorrows: yet we did esteem him stricken, smitten of God, and afflicted.",
+    "But he was wounded for our transgressions, he was bruised for our iniquities: the chastisement of our peace was upon him; and with his stripes we are healed.",
+    "All we like sheep have gone astray; we have turned every one to his own way; and the LORD hath laid on him the iniquity of us all.",
+    "He was oppressed, and he was afflicted, yet he opened not his mouth: he is brought as a lamb to the slaughter, and as a sheep before her shearers is dumb, so he openeth not his mouth.",
+    "He was taken from prison and from judgment: and who shall declare his generation? for he was cut off out of the land of the living: for the transgression of my people was he stricken.",
+    "And he made his grave with the wicked, and with the rich in his death; because he had done no violence, neither was any deceit in his mouth.",
+    "Yet it pleased the LORD to bruise him; he hath put him to grief: when thou shalt make his soul an offering for sin, he shall see his seed, he shall prolong his days, and the pleasure of the LORD shall prosper in his hand.",
+    "He shall see of the travail of his soul, and shall be satisfied: by his knowledge shall my righteous servant justify many; for he shall bear their iniquities.",
+    "Therefore will I divide him a portion with the great, and he shall divide the spoil with the strong; because he hath poured out his soul unto death: and he was numbered with the transgressors; and he bare the sin of many, and made intercession for the transgressors.",
+  ],
+  'john:3': [
+    "There was a man of the Pharisees, named Nicodemus, a ruler of the Jews:",
+    "The same came to Jesus by night, and said unto him, Rabbi, we know that thou art a teacher come from God: for no man can do these miracles that thou doest, except God be with him.",
+    "Jesus answered and said unto him, Verily, verily, I say unto thee, Except a man be born again, he cannot see the kingdom of God.",
+    "Nicodemus saith unto him, How can a man be born when he is old? can he enter the second time into his mother's womb, and be born?",
+    "Jesus answered, Verily, verily, I say unto thee, Except a man be born of water and of the Spirit, he cannot enter into the kingdom of God.",
+    "That which is born of the flesh is flesh; and that which is born of the Spirit is spirit.",
+    "Marvel not that I said unto thee, Ye must be born again.",
+    "The wind bloweth where it listeth, and thou hearest the sound thereof, but canst not tell whence it cometh, and whither it goeth: so is every one that is born of the Spirit.",
+    "Nicodemus answered and said unto him, How can these things be?",
+    "Jesus answered and said unto him, Art thou a master of Israel, and knowest not these things?",
+    "Verily, verily, I say unto thee, We speak that we do know, and testify that we have seen; and ye receive not our witness.",
+    "If I have told you earthly things, and ye believe not, how shall ye believe, if I tell you of heavenly things?",
+    "And no man hath ascended up to heaven, but he that came down from heaven, even the Son of man which is in heaven.",
+    "And as Moses lifted up the serpent in the wilderness, even so must the Son of man be lifted up:",
+    "That whosoever believeth in him should not perish, but have eternal life.",
+    "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.",
+    "For God sent not his Son into the world to condemn the world; but that the world through him might be saved.",
+    "He that believeth on him is not condemned: but he that believeth not is condemned already, because he hath not believed in the name of the only begotten Son of God.",
+    "And this is the condemnation, that light is come into the world, and men loved darkness rather than light, because their deeds were evil.",
+    "For every one that doeth evil hateth the light, neither cometh to the light, lest his deeds should be reproved.",
+    "But he that doeth truth cometh to the light, that his deeds may be made manifest, that they are wrought in God.",
+    "After these things came Jesus and his disciples into the land of Judaea; and there he tarried with them, and baptized.",
+    "And John also was baptizing in Aenon near to Salim, because there was much water there: and they came, and were baptized.",
+    "For John was not yet cast into prison.",
+    "Then there arose a question between some of John's disciples and the Jews about purifying.",
+    "And they came unto John, and said unto him, Rabbi, he that was with thee beyond Jordan, to whom thou barest witness, behold, the same baptizeth, and all men come to him.",
+    "John answered and said, A man can receive nothing, except it be given him from heaven.",
+    "Ye yourselves bear me witness, that I said, I am not the Christ, but that I am sent before him.",
+    "He that hath the bride is the bridegroom: but the friend of the bridegroom, which standeth and heareth him, rejoiceth greatly because of the bridegroom's voice: this my joy therefore is fulfilled.",
+    "He must increase, but I must decrease.",
+    "He that cometh from above is above all: he that is of the earth is earthly, and speaketh of the earth: he that cometh from heaven is above all.",
+    "And what he hath seen and heard, that he testifieth; and no man receiveth his testimony.",
+    "He that hath received his testimony hath set to his seal that God is true.",
+    "For he whom God hath sent speaketh the words of God: for God giveth not the Spirit by measure unto him.",
+    "The Father loveth the Son, and hath given all things into his hand.",
+    "He that believeth on the Son hath everlasting life: and he that believeth not the Son shall not see life; but the wrath of God abideth on him.",
+  ],
+  '1-corinthians:13': [
+    "Though I speak with the tongues of men and of angels, and have not charity, I am become as sounding brass, or a tinkling cymbal.",
+    "And though I have the gift of prophecy, and understand all mysteries, and all knowledge; and though I have all faith, so that I could remove mountains, and have not charity, I am nothing.",
+    "And though I bestow all my goods to feed the poor, and though I give my body to be burned, and have not charity, it profiteth me nothing.",
+    "Charity suffereth long, and is kind; charity envieth not; charity vaunteth not itself, is not puffed up,",
+    "Doth not behave itself unseemly, seeketh not her own, is not easily provoked, thinketh no evil;",
+    "Rejoiceth not in iniquity, but rejoiceth in the truth;",
+    "Beareth all things, believeth all things, hopeth all things, endureth all things.",
+    "Charity never faileth: but whether there be prophecies, they shall fail; whether there be tongues, they shall cease; whether there be knowledge, it shall vanish away.",
+    "For we know in part, and we prophesy in part.",
+    "But when that which is perfect is come, then that which is in part shall be done away.",
+    "When I was a child, I spake as a child, I understood as a child, I thought as a child: but when I became a man, I put away childish things.",
+    "For now we see through a glass, darkly; but then face to face: now I know in part; but then shall I know even as also I am known.",
+    "And now abideth faith, hope, charity, these three; but the greatest of these is charity.",
+  ],
+  'philippians:4': [
+    "Therefore, my brethren dearly beloved and longed for, my joy and crown, so stand fast in the Lord, my dearly beloved.",
+    "I beseech Euodias, and beseech Syntyche, that they be of the same mind in the Lord.",
+    "And I entreat thee also, true yokefellow, help those women which laboured with me in the gospel, with Clement also, and with other my fellowlabourers, whose names are in the book of life.",
+    "Rejoice in the Lord alway: and again I say, Rejoice.",
+    "Let your moderation be known unto all men. The Lord is at hand.",
+    "Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God.",
+    "And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus.",
+    "Finally, brethren, whatsoever things are true, whatsoever things are honest, whatsoever things are just, whatsoever things are pure, whatsoever things are lovely, whatsoever things are of good report; if there be any virtue, and if there be any praise, think on these things.",
+    "Those things, which ye have both learned, and received, and heard, and seen in me, do: and the God of peace shall be with you.",
+    "But I rejoiced in the Lord greatly, that now at the last your care of me hath flourished again; wherein ye were also careful, but ye lacked opportunity.",
+    "Not that I speak in respect of want: for I have learned, in whatsoever state I am, therewith to be content.",
+    "I know both how to be abased, and I know how to abound: every where and in all things I am instructed both to be full and to be hungry, both to abound and to suffer need.",
+    "I can do all things through Christ which strengtheneth me.",
+    "Notwithstanding ye have well done, that ye did communicate with my affliction.",
+    "Now ye Philippians know, that in the beginning of the gospel, when I departed from Macedonia, no church communicated with me as concerning giving and receiving, but ye only.",
+    "For even in Thessalonica ye sent once and again unto my necessity.",
+    "Not because I desire a gift: but I desire fruit that may abound to your account.",
+    "But I have all, and abound: I am full, having received of Epaphroditus the things which were sent from you, an odour of a sweet smell, a sacrifice acceptable, wellpleasing to God.",
+    "But my God shall supply all your need according to his riches in glory by Christ Jesus.",
+    "Now unto God and our Father be glory for ever and ever. Amen.",
+    "Salute every saint in Christ Jesus. The brethren which are with me greet you.",
+    "All the saints salute you, chiefly they that are of Caesar's household.",
+    "The grace of our Lord Jesus Christ be with you all. Amen.",
+  ],
+  'james:1': [
+    "James, a servant of God and of the Lord Jesus Christ, to the twelve tribes which are scattered abroad, greeting.",
+    "My brethren, count it all joy when ye fall into divers temptations;",
+    "Knowing this, that the trying of your faith worketh patience.",
+    "But let patience have her perfect work, that ye may be perfect and entire, wanting nothing.",
+    "If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not; and it shall be given him.",
+    "But let him ask in faith, nothing wavering. For he that wavereth is like a wave of the sea driven with the wind and tossed.",
+    "For let not that man think that he shall receive any thing of the Lord.",
+    "A double minded man is unstable in all his ways.",
+    "Let the brother of low degree rejoice in that he is exalted:",
+    "But the rich, in that he is made low: because as the flower of the grass he shall pass away.",
+    "For the sun is no sooner risen with a burning heat, but it withereth the grass, and the flower thereof falleth, and the grace of the fashion of it perisheth: so also shall the rich man fade away in his ways.",
+    "Blessed is the man that endureth temptation: for when he is tried, he shall receive the crown of life, which the Lord hath promised to them that love him.",
+    "Let no man say when he is tempted, I am tempted of God: for God cannot be tempted with evil, neither tempteth he any man:",
+    "But every man is tempted, when he is drawn away of his own lust, and enticed.",
+    "Then when lust hath conceived, it bringeth forth sin: and sin, when it is finished, bringeth forth death.",
+    "Do not err, my beloved brethren.",
+    "Every good gift and every perfect gift is from above, and cometh down from the Father of lights, with whom is no variableness, neither shadow of turning.",
+    "Of his own will begat he us with the word of truth, that we should be a kind of firstfruits of his creatures.",
+    "Wherefore, my beloved brethren, let every man be swift to hear, slow to speak, slow to wrath:",
+    "For the wrath of man worketh not the righteousness of God.",
+    "Wherefore lay apart all filthiness and superfluity of naughtiness, and receive with meekness the engrafted word, which is able to save your souls.",
+    "But be ye doers of the word, and not hearers only, deceiving your own selves.",
+    "For if any be a hearer of the word, and not a doer, he is like unto a man beholding his natural face in a glass:",
+    "For he beholdeth himself, and goeth his way, and straightway forgetteth what manner of man he was.",
+    "But whoso looketh into the perfect law of liberty, and continueth therein, he being not a forgetful hearer, but a doer of the work, this man shall be blessed in his deed.",
+    "If any man among you seem to be religious, and bridleth not his tongue, but deceiveth his own heart, this man's religion is vain.",
+    "Pure religion and undefiled before God and the Father is this, To visit the fatherless and widows in their affliction, and to keep himself unspotted from the world.",
+  ],
+}
+
+export const chapterKey = (bookSlug: string, chapter: number) => `${bookSlug}:${chapter}`
+
+/** Returns the verses for a chapter, or `null` when the text is not loaded. */
+export function getChapter(bookSlug: string, chapter: number): Chapter | null {
+  return CHAPTERS[chapterKey(bookSlug, chapter)] ?? null
+}
+
+export function hasChapter(bookSlug: string, chapter: number): boolean {
+  return chapterKey(bookSlug, chapter) in CHAPTERS
+}
+
+/** Chapter numbers with loaded text for a book, ascending. */
+export function loadedChapters(bookSlug: string): number[] {
+  const prefix = `${bookSlug}:`
+  return Object.keys(CHAPTERS)
+    .filter((k) => k.startsWith(prefix))
+    .map((k) => Number(k.slice(prefix.length)))
+    .sort((a, b) => a - b)
+}
+
+export const LOADED_CHAPTER_COUNT = Object.keys(CHAPTERS).length
+export const LOADED_VERSE_COUNT = Object.values(CHAPTERS).reduce((n, c) => n + c.length, 0)

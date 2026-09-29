@@ -1,0 +1,168 @@
+@import "tailwindcss" source("../");
+
+@theme {
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Jost", "Avenir Next", "Helvetica Neue", sans-serif;
+  --font-scripture: "Newsreader", "Iowan Old Style", Georgia, serif;
+
+  --color-ink: #04070d;
+  --color-navy-950: #070c17;
+  --color-navy-900: #0a1526;
+  --color-navy-850: #0d1b2e;
+  --color-navy-800: #102037;
+  --color-navy-700: #172c46;
+  --color-navy-600: #21395a;
+
+  --color-mist-500: #7d93ae;
+  --color-mist-400: #9db0c7;
+  --color-mist-300: #bcccdd;
+
+  --color-cream: #f7f2e8;
+  --color-cream-dim: #e3dbcb;
+
+  --color-gold-300: #f0d59a;
+  --color-gold-400: #e4be72;
+  --color-gold-500: #d0a04d;
+  --color-gold-600: #ae7f35;
+  --color-gold-700: #7d5a22;
+
+  --ease-cinematic: cubic-bezier(0.16, 0.84, 0.28, 1);
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    --shell-pad: env(safe-area-inset-bottom, 0px);
+  }
+
+  html {
+    background-color: var(--color-ink);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-ink);
+    color: var(--color-cream);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overscroll-behavior-y: none;
+  }
+
+  ::selection {
+    background: var(--color-gold-600);
+    color: var(--color-ink);
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-variation-settings: "SOFT" 0, "WONK" 0;
+    letter-spacing: -0.015em;
+  }
+
+  input, textarea, select, button {
+    font-family: inherit;
+  }
+
+  ::-webkit-scrollbar { width: 0; height: 0; }
+}
+
+@utility eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+/* --- Atmosphere ------------------------------------------------------- */
+
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.horizon-glow {
+  background:
+    radial-gradient(120% 70% at 50% 108%, rgba(212, 160, 77, 0.28) 0%, rgba(212, 160, 77, 0.06) 42%, transparent 70%),
+    radial-gradient(90% 60% at 18% -10%, rgba(33, 57, 90, 0.55) 0%, transparent 65%);
+}
+
+.gold-hairline {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(208, 160, 77, 0.55) 22%,
+    rgba(240, 213, 154, 0.9) 50%,
+    rgba(208, 160, 77, 0.55) 78%,
+    transparent 100%
+  );
+}
+
+.gold-text {
+  background: linear-gradient(168deg, #f4dcab 0%, #dcb266 46%, #a8792f 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.panel {
+  background:
+    linear-gradient(168deg, rgba(23, 44, 70, 0.62) 0%, rgba(10, 21, 38, 0.72) 100%);
+  border: 1px solid rgba(157, 176, 199, 0.13);
+  box-shadow:
+    inset 0 1px 0 rgba(247, 242, 232, 0.05),
+    0 24px 60px -32px rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(14px);
+}
+
+.panel-gold {
+  background: linear-gradient(168deg, rgba(208, 160, 77, 0.14) 0%, rgba(10, 21, 38, 0.6) 100%);
+  border: 1px solid rgba(208, 160, 77, 0.28);
+  box-shadow: inset 0 1px 0 rgba(240, 213, 154, 0.14), 0 24px 60px -34px rgba(0, 0, 0, 0.9);
+}
+
+/* --- Motion ----------------------------------------------------------- */
+
+@keyframes rise {
+  from { opacity: 0; transform: translate3d(0, 18px, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes sun-ascend {
+  from { opacity: 0; transform: translate3d(0, 64px, 0) scale(0.82); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.06); }
+}
+
+@keyframes sweep {
+  from { transform: translateX(-120%); }
+  to { transform: translateX(120%); }
+}
+
+.rise { animation: rise 0.85s var(--ease-cinematic) both; }
+.fade-in { animation: fade 1.2s ease-out both; }
+.sun-ascend { animation: sun-ascend 2.2s var(--ease-cinematic) both; }
+.breathe { animation: breathe 7s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rise, .fade-in, .sun-ascend, .breathe {
+    animation: fade 0.01s linear both;
+  }
+}

@@ -1,0 +1,9 @@
+import { Link, createFileRoute } from '@tanstack/react-router'
+import { Search } from 'lucide-react'
+import { useMemo, useState } from 'react'
+import { BOOKS } from '@/data/bible'
+import { CHAPTERS } from '@/data/bible-text'
+import { ScreenHeader } from '@/components/ui'
+
+export const Route = createFileRoute('/_app/bible/search')({ component: BibleSearch })
+function BibleSearch(){ const [q,setQ]=useState(''); const query=q.trim().toLowerCase(); const results=useMemo(()=>{if(query.length<2)return []; const out:{book:string;slug:string;chapter:number;verse:number;text:string}[]=[]; for(const [key,verses] of Object.entries(CHAPTERS)){const [slug,ch]=key.split(':'); const book=BOOKS.find(b=>b.slug===slug); if(!book)continue; verses.forEach((text,i)=>{if(text.toLowerCase().includes(query)&&out.length<100)out.push({book:book.name,slug,chapter:Number(ch),verse:i+1,text})})} return out},[query]); return <><ScreenHeader eyebrow="Find a passage" title="Search Scripture" lede="Search across every KJV chapter currently loaded in the app."/><label className="panel flex items-center gap-3 rounded-xl px-4 py-3"><Search size={18} className="text-gold-400"/><input autoFocus value={q} onChange={e=>setQ(e.target.value)} placeholder="Try faith, peace, courage…" className="w-full bg-transparent text-cream outline-none placeholder:text-mist-500/60"/></label><div className="mt-6 space-y-2">{results.map(r=><Link key={`${r.slug}-${r.chapter}-${r.verse}`} to="/bible/$book/$chapter" params={{book:r.slug,chapter:String(r.chapter)}} className="panel block rounded-xl px-5 py-4"><p className="eyebrow text-gold-400">{r.book} {r.chapter}:{r.verse}</p><p className="mt-2 font-serif leading-relaxed text-cream/85">{r.text}</p></Link>)}{query.length>=2&&results.length===0?<p className="py-10 text-center text-sm text-mist-500">No matches in the chapters currently loaded.</p>:null}</div></> }
