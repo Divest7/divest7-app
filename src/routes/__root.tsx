@@ -5,7 +5,7 @@ import '../styles.css'
 
 const siteName = 'DIVEST 7 — The Next Step Forward'
 const siteDescription =
-  'A daily practice of affirmation, Scripture, reflection and action. Dream, Believe, Decide, Act, Reflect, Plan, Repeat. Small Steps. Big Movement.'
+  'A daily practice of affirmation, Scripture, reflection and action. Dream, Believe, Decide, Act, Reflect, Plan, Transform. Repeat the process. Small Steps. Big Movement.'
 
 export const Route = createRootRoute({
   head: () => ({

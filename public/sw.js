@@ -1,5 +1,5 @@
 /* DIVEST 7 service worker — offline shell for the daily practice. */
-const VERSION = 'divest7-v3'
+const VERSION = 'divest7-v4-polished'
 const SHELL = `${VERSION}-shell`
 const RUNTIME = `${VERSION}-runtime`
 const OFFLINE_URL = '/offline.html'

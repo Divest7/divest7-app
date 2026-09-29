@@ -13,7 +13,7 @@ Jost (interface) and Newsreader (Scripture and long-form reading).
 
 ## The seven movements
 
-Dream → Believe → Decide → Act → Reflect → Plan → Repeat.
+Dream → Believe → Decide → Act → Reflect → Plan → Transform. Repeat the process.
 
 The seven cycle continuously through the 365-day year, so every entry sits inside one
 of them.

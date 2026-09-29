@@ -11,8 +11,8 @@ function Seven() {
   const today = dayOfYear()
   return <main className="mx-auto max-w-5xl px-5 py-8 sm:px-8 lg:py-12">
     <Eyebrow>The DIVEST 7 Method</Eyebrow>
-    <h1 className="mt-3 max-w-3xl text-5xl sm:text-7xl">Dream. Believe. Decide. Act. Reflect. Plan. Repeat.</h1>
-    <p className="mt-5 max-w-2xl text-mist-400">Seven movements designed to turn vision into faithful, repeatable action.</p>
+    <h1 className="mt-3 max-w-3xl text-5xl sm:text-7xl">Dream. Believe. Decide. Act. Reflect. Plan. Transform.</h1>
+    <p className="mt-5 max-w-2xl text-mist-400">Seven steps designed to move vision toward transformation. Complete the seven, then repeat the process with what you have learned.</p>
 
     <Panel tone="gold" className="mt-8 p-6 sm:p-8">
       <Eyebrow>DIVEST 7 · The Next Step Forward</Eyebrow>

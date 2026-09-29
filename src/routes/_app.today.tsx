@@ -34,7 +34,7 @@ function CompletePanel({ day }: { day: number }) {
           <CompleteToggle done={done} onToggle={() => toggleComplete(day)} />
           <p className="mt-4 text-center text-[0.72rem] leading-relaxed text-mist-500">
             {done
-              ? 'Logged. Come back tomorrow — the seventh movement is Repeat.'
+              ? 'Logged. Transformation is step seven. Come back tomorrow and repeat the process.'
               : 'Mark the day when the step is taken. Consistency is what compounds.'}
           </p>
         </>

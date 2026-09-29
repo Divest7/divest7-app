@@ -50,7 +50,7 @@ function Days() {
       <ScreenHeader
         eyebrow={`${DAY_COUNT} entries · one for every day`}
         title="The Year"
-        lede="Twelve movements, seven steps repeating through each of them. Every day carries its own affirmation, Scripture, question and step — no two are the same."
+        lede="Twelve movements, seven steps practiced throughout the year. Every day carries its own affirmation, Scripture, question and step — no two are the same."
       />
 
       {/* Search */}
@@ -123,7 +123,7 @@ function Days() {
       {shown.length === 0 ? (
         <EmptyState
           title="Nothing found"
-          body="Try a shorter phrase, a book of the Bible, or one of the seven movements — Dream, Believe, Decide, Act, Reflect, Plan, Repeat."
+          body="Try a shorter phrase, a book of the Bible, or one of the seven movements — Dream, Believe, Decide, Act, Reflect, Plan, Transform."
         />
       ) : (
         <div className="grid gap-3 sm:grid-cols-2">
