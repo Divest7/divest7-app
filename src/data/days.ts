@@ -1,4 +1,5 @@
-import { ACTIONS, AFFIRMATIONS, MESSAGES, MOVEMENTS, REFLECTIONS, SCRIPTURES } from './library'
+import { MOVEMENTS } from './library'
+import { LESSONS } from './daily-lessons'
 import { STEPS, type Step } from './divest7'
 
 export const DAY_COUNT = 365
@@ -28,6 +29,7 @@ export type Entry = {
   affirmation: string
   scripture: { ref: string; text: string }
   message: string
+  prayer: string
   reflection: string
   action: string
 }
@@ -75,29 +77,36 @@ export function monthRange(monthIndex: number): { first: number; last: number; n
 }
 
 /**
- * Composes a day's entry from the editorial library.
- *
- * The five pools have pairwise-coprime prime lengths (61, 59, 47, 43, 41), so
- * by the Chinese remainder theorem no two days in a 365-day year receive the
- * same combination — every day is a distinct entry.
+ * Composes a day from one coherent editorial lesson. All content elements for
+ * the day come from the same DIVEST practice and lesson variant, so the
+ * affirmation, message, Scripture, prayer, reflection and action reinforce one
+ * central idea. Monthly movements add seasonal framing without changing the
+ * lesson's core meaning.
  */
 export function getEntry(day: number): Entry {
   const d = clampDay(day)
   const i = d - 1
   const { monthIndex, dayOfMonth } = monthDayForDay(d)
+  const step = STEPS[i % 7]
+  const lessons = LESSONS[step.key]
+  // A stable 0–4 rotation that varies across months while preserving step alignment.
+  const variant = (Math.floor((dayOfMonth - 1) / 7) + monthIndex) % lessons.length
+  const lesson = lessons[variant]
+  const movement = MOVEMENTS[monthIndex]
 
   return {
     day: d,
     label: `${MONTH_NAMES[monthIndex]} ${dayOfMonth}`,
     monthIndex,
     dayOfMonth,
-    movement: MOVEMENTS[monthIndex],
-    step: STEPS[i % 7],
-    affirmation: AFFIRMATIONS[i % AFFIRMATIONS.length],
-    scripture: SCRIPTURES[i % SCRIPTURES.length],
-    message: MESSAGES[i % MESSAGES.length],
-    reflection: REFLECTIONS[i % REFLECTIONS.length],
-    action: ACTIONS[i % ACTIONS.length],
+    movement,
+    step,
+    affirmation: lesson.affirmation,
+    scripture: lesson.scripture,
+    message: `${lesson.message} This month’s movement, ${movement.title}, invites you to practice this through ${movement.theme.toLowerCase()}.`,
+    prayer: lesson.prayer,
+    reflection: lesson.reflection,
+    action: lesson.action,
   }
 }
 
@@ -110,7 +119,7 @@ export function searchEntries(query: string, limit = 60): Entry[] {
   const out: Entry[] = []
   for (let d = 1; d <= DAY_COUNT && out.length < limit; d += 1) {
     const e = getEntry(d)
-    const haystack = `${e.label} ${e.affirmation} ${e.message} ${e.scripture.ref} ${e.scripture.text} ${e.reflection} ${e.action} ${e.step.name} ${e.movement.title}`
+    const haystack = `${e.label} ${e.affirmation} ${e.message} ${e.prayer} ${e.scripture.ref} ${e.scripture.text} ${e.reflection} ${e.action} ${e.step.name} ${e.movement.title}`
     if (haystack.toLowerCase().includes(q)) out.push(e)
   }
   return out

@@ -50,7 +50,7 @@ function Days() {
       <ScreenHeader
         eyebrow={`${DAY_COUNT} entries · one for every day`}
         title="The Year"
-        lede="Twelve movements, seven steps practiced throughout the year. Every day carries its own affirmation, Scripture, question and step — no two are the same."
+        lede="Twelve movements, seven steps practiced throughout the year. Every day is one focused lesson: affirmation, message, KJV Scripture, prayer, reflection and one practical next step."
       />
 
       {/* Search */}
@@ -67,7 +67,7 @@ function Days() {
             setQuery(e.target.value)
             navigate({ search: (p) => ({ ...p, q: e.target.value || undefined }), replace: true })
           }}
-          placeholder="Search affirmations, Scripture, questions, steps…"
+          placeholder="Search affirmations, Scripture, prayers, questions, steps…"
           className="panel w-full rounded-full py-4 pl-13 pr-13 text-[0.9rem] text-cream placeholder:text-mist-500/70 focus:border-gold-500/40 focus:outline-none"
         />
         {query ? (

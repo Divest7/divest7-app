@@ -117,8 +117,16 @@ export function DayEntry({
         </div>
       </Panel>
 
+      {/* Prayer */}
+      <Panel tone="gold" className="rise px-6 py-7 sm:px-9 sm:py-9" style={{ animationDelay: '270ms' }}>
+        <Eyebrow>Prayer</Eyebrow>
+        <p className="mt-4 font-scripture text-[1.08rem] leading-[1.75] text-cream/92 sm:text-[1.18rem]">
+          {entry.prayer}
+        </p>
+      </Panel>
+
       {/* Reflection */}
-      <Panel className="rise px-6 py-7 sm:px-9 sm:py-9" style={{ animationDelay: '290ms' }}>
+      <Panel className="rise px-6 py-7 sm:px-9 sm:py-9" style={{ animationDelay: '320ms' }}>
         <Eyebrow>Reflection</Eyebrow>
         <p className="mt-4 font-display text-[1.28rem] leading-[1.4] text-cream/92 sm:text-[1.5rem]">
           {entry.reflection}
@@ -134,7 +142,7 @@ export function DayEntry({
       </Panel>
 
       {/* Action */}
-      <Panel className="rise px-6 py-7 sm:px-9 sm:py-9" style={{ animationDelay: '360ms' }}>
+      <Panel className="rise px-6 py-7 sm:px-9 sm:py-9" style={{ animationDelay: '390ms' }}>
         <div className="flex items-start gap-5">
           <span className="mt-0.5 font-display text-[2.4rem] leading-none text-gold-500/25">
             {entry.step.n}
@@ -150,7 +158,7 @@ export function DayEntry({
 
       {footer}
 
-      <nav className="rise flex items-center justify-between gap-4 pt-4" style={{ animationDelay: '430ms' }}>
+      <nav className="rise flex items-center justify-between gap-4 pt-4" style={{ animationDelay: '460ms' }}>
         {entry.day > 1 ? (
           <Link
             to="/days/$day"
