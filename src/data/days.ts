@@ -103,7 +103,7 @@ export function getEntry(day: number): Entry {
     step,
     affirmation: lesson.affirmation,
     scripture: lesson.scripture,
-    message: `${lesson.message} This month’s movement, ${movement.title}, invites you to practice this through ${movement.theme.toLowerCase()}.`,
+    message: lesson.message,
     prayer: lesson.prayer,
     reflection: lesson.reflection,
     action: lesson.action,

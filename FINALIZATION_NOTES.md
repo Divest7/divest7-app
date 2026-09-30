@@ -18,3 +18,12 @@ Bible, Journal, Create, Music, 7-Min Reset, Progress, Favorites, The Seven, comp
 
 ## Deployment
 Upload the contents of this folder to the existing GitHub repository main branch. Render should redeploy automatically from the new commit.
+
+
+## Final production polish — 2026-09-30
+- Removed the automatically appended monthly-theme sentence from each daily message. The generated sentence could create awkward grammar and dilute the lesson's single theme.
+- Preserved monthly movement metadata without forcing it into every lesson paragraph.
+- Restored Joshua 24:15 to the full KJV verse rather than an ellipsized excerpt.
+- Normalized the apostrophe in Lamentations 3:22-23 for consistent text rendering.
+- Confirmed all 365 days still derive affirmation, message, Scripture, prayer, reflection, and action from one coherent lesson object.
+- Production build verified successfully after edits.
